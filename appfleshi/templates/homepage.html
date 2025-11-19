@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>
@@ -9,6 +9,17 @@
 <body>
     {% block body %}
     <h1>Fléshi</h1>
-    {% endblock %}
+    <form method="POST">
+        {{ form.csrf_token }}
+            {{ form.email.label() }}
+            {{ form.email() }}
+
+            {{ form.password.label() }}
+            {{ form.password }}
+
+            {{ form.submit() }}
+    </form>
+
 </body>
+{% endblock %}
 </html>
