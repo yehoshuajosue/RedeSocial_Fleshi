@@ -1,5 +1,5 @@
 from flask import render_template
-from flask import login_required
+from flask_login import login_required
 from appfleshi import app
 
 @app.route('/')

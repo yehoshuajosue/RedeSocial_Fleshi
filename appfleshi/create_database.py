@@ -1,4 +1,4 @@
-from models import User,Photo
+
 from appfleshi import app, database
 
 with app.app_context():
