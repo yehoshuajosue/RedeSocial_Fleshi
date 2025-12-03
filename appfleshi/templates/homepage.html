@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {% block title %}Fléshi{% endblock %}
-    </title>
+        {% block title %}
+            Fléshi
+        {% endblock %}</title>
 </head>
+{% block body %}
 <body>
-    {% block body %}
     <h1>Fléshi</h1>
+
     {% block form %}
-        <form method="POST">
-            {{ form.csrf_token }}
-                {{ form.email.label() }}
-                {{ form.email() }}
+        <form method="post">
+        {{ form.csrf_token }}
+        {{ form.email.label() }}
+        {{ form.email() }}
 
-                {{ form.password.label() }}
-                {{ form.password() }}
+        {{ form.password.label() }}
+        {{ form.password() }}
 
-                {{ form.submit() }}
+        {{ form.submit() }}
         </form>
     {% endblock %}
-
 </body>
 {% endblock %}
 </html>

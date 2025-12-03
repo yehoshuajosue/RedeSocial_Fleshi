@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Perfil do usuário: {{ username }}</h1>
-    <a href="{{ url_for('homepage') }}">Sair</a>
+    <body>
+        <h1>Perfil do usuário: {{ user.username }}</h1>
+
+        {% if form %}
+            <form method="post" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+
+                {{ form.photo() }}
+                {{ form.submit() }}
+            </form>
+        {% endif %}
+
+        <a href="{{ url_for('logout') }}">Sair</a>
+
+        {% for photo in user.photos %}
+            <img src="{{ url_for('static', filename='post_photos/'~ photo.file_name) }}" alt="imagem">
+        {% endfor %}
+    </body>
 {% endblock %}
