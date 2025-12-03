@@ -11,12 +11,12 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Nome de Usuário', validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('Senha', validators=[DataRequired(), Length(min=6, max=60)])
-    confirme_password = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField('Senha', validators=[DataRequired(), Length(min=2, max=20)])
+    confirm_password = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Criar Conta')
 
-    def validate_email(self, field):
-        user = User.query.filter_by(email=field.data).first()
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
         if user:
-            return ValidationError("Email já cadastrado. Por favor, use outro email ou faça login.")
+            return ValidationError('E-mail já cadastrado. Por favor, use outro e-mail ou faça login.')
         return None
