@@ -19,7 +19,7 @@
         {% endif %}
 
         {% for photo in user.photos %}
-            <img src="{{ url_for('static', filename='post_photos/'~ photo.file_name) }}" alt="imagem">
+            <img src="{{ url_for('static', filename='posts_photos/'~ photo.file_name) }}" alt="''~ photo.file_name">
         {% endfor %}
     </body>
 {% endblock %}
