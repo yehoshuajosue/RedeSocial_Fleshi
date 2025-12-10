@@ -6,20 +6,17 @@ from appfleshi.models import User, Photo
 import os
 from werkzeug.utils import secure_filename
 
-from appfleshi import app
-
-
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     login_form = LoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, login_form.password.data ):
+        if user and bcrypt.check_password_hash(user.password, login_form.password.data):
             login_user(user)
-            return redirect(url_for('profile', user_id=user.id))
+            return redirect(url_for('feed'))
     return render_template('homepage.html', form=login_form)
 
-@app.route('/createaccount', methods=['GET', 'POST'])
+@app.route("/createaccount", methods=['GET', 'POST'])
 def createaccount():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
@@ -31,7 +28,7 @@ def createaccount():
         return redirect(url_for('profile', user_id=user.id))
     return render_template('createaccount.html', form=register_form)
 
-@app.route('/profile/<user_id>', methods=['GET', 'POST'])
+@app.route("/profile/<user_id>", methods=['GET', 'POST'])
 @login_required
 def profile(user_id):
     if int(user_id) == int(current_user.id):
@@ -39,7 +36,7 @@ def profile(user_id):
         if photo_form.validate_on_submit():
             file = photo_form.photo.data
             secure_name = secure_filename(file.filename)
-            path = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], secure_name)
+            path = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config["UPLOAD_FOLDER"], secure_name)
             file.save(path)
             photo = Photo(file_name=secure_name, user_id=current_user.id)
             database.session.add(photo)
@@ -49,14 +46,14 @@ def profile(user_id):
         user = User.query.get(int(user_id))
         return render_template('profile.html', user=user, form=None)
 
-@app.route('/logout')
+@app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('homepage'))
 
-@app.route('/feed')
+@app.route("/feed")
 @login_required
 def feed():
     photos = Photo.query.order_by(Photo.upload_date.desc()).all()
-    return render_template('feed.html', photos=photos)
+    return render_template("feed.html", photos=photos)
